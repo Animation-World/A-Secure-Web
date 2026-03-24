@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Lubricants & Coolants — BMC Foundry Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+/* TOPBAR */
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+.page-hero{min-height:70vh;padding:160px 5vw 60px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border)}
+.hero-title{font-size:clamp(44px,8vw,96px);margin-bottom:20px;background:linear-gradient(to right,var(--text),var(--text-light));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-desc{max-width:980px;font-size:18px;color:var(--text-light);line-height:1.8;border-left:2px solid var(--accent);padding-left:24px}
+.grid{max-width:1200px;margin:0 auto;padding:80px 5vw;display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.image{height:180px;background:#e0ded5;border-bottom:1px solid var(--border)}
+.image img{width:100%;height:100%;object-fit:contain}
+.inner{padding:18px}
+.inner h3{font-size:18px;margin-bottom:8px}
+.inner p{color:var(--text-light);line-height:1.7;font-size:14px}
+.brands{max-width:1200px;margin:0 auto;padding:40px 5vw;border-top:1px solid var(--border);display:flex;gap:24px;flex-wrap:wrap;align-items:center}
+.brands img{height:42px;object-fit:contain}
+.cta{max-width:1200px;margin:0 auto;padding:60px 5vw;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.box{background:var(--surface);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+footer{background:var(--text);color:var(--bg);padding:50px 5vw;text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.cta{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+<header class="page-hero">
+  <h1 class="hero-title">Lubricants & Coolants</h1>
+  <div class="hero-desc">Release agents, coolants and lubricants are essential. For high-temperature and critical machining, speciality lubricants enhance productivity, extend tool/mold life, reduce cycle time and save costs. BMC partners with MORESCO to deliver the right technology with ongoing operator training and process support.</div>
+</header>
+<section class="grid">
+  <div class="card"><div class="image"><img src="images/Coolants & Lubricants/Hot Forging Lubricant.png" alt="Hot Forging Lubricant"></div><div class="inner"><h3>Hot Forging Lubricant</h3><p>For auto engine components and safety parts.</p></div></div>
+  <div class="card"><div class="image"><img src="images/Coolants & Lubricants/Vacuum Pump Oil.png" alt="Vacuum Pump Oil"></div><div class="inner"><h3>Vacuum Pump Oil</h3><p>For small vacuum pumps and food vacuum packing.</p></div></div>
+  <div class="card"><div class="image"><img src="images/Coolants & Lubricants/Hydraulic Fluid.png" alt="Hydraulic Fluid"></div><div class="inner"><h3>Hydraulic Fluid</h3><p>Fire-resistant fluids used in steel industry and fun park rides.</p></div></div>
+  <div class="card"><div class="image"><img src="images/Coolants & Lubricants/High Temperature Greases.png" alt="High Temperature Greases"></div><div class="inner"><h3>High Temperature Greases</h3><p>For automotive engine bearings and oven chains in breadmaking.</p></div></div>
+</section>
+<section class="brands">
+  <img src="images/Coolants & Lubricants/Moresco Corporation - Japan.png" alt="MORESCO Japan">
+  <img src="images/Coolants & Lubricants/Moresco HM & LUB India Pvt. Ltd., - India.png" alt="MORESCO India">
+</section>
+<section class="cta">
+  <div><h2 style="font-size:24px;margin-bottom:10px">Applications & Service</h2><p><strong>Aluminium Foundry:</strong> Water soluble & waterless die lubricants, plunger lubricants.<br><strong>Machining Coolants:</strong> Ferrous & nonferrous, aerospace and speciality grinding/machining.<br><strong>Speciality Lubricants:</strong> Vacuum pump oil, forging, hot melt adhesive, radiation-resistant oils/greases, liquid paraffin.</p></div>
+  <div class="box"><h3 style="margin-bottom:8px">For more details and enquiry</h3><p>gokilavaratharaj142@gmail.com<br>+91 9095195647</p></div>
+</section>
+<div id="global-footer"></div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.from(".hero-title",{y:50,opacity:0,duration:1});
+gsap.from(".hero-desc",{y:20,opacity:0,duration:.8,delay:.2});
+gsap.from(".card",{scrollTrigger:{trigger:".grid",start:"top 80%"},y:40,opacity:0,duration:.6,stagger:.06});
+</script>
+</body>
+</html>

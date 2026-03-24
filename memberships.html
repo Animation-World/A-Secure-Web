@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Memberships & Affiliations — Best Marketing Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+.page-hero{min-height:50vh;padding:140px 5vw 40px;border-bottom:1px solid var(--border)}
+.hero-title{font-size:clamp(40px,7vw,84px)}
+.wrap{max-width:1200px;margin:0 auto;padding:40px 5vw}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.pod{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center}
+.pod img{height:40px;margin-bottom:12px}
+.pod h3{margin-bottom:8px}
+.pod p{color:var(--text-light);line-height:1.8}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<header class="page-hero">
+  <h1 class="hero-title">Memberships & Affiliations</h1>
+</header>
+<section class="wrap">
+  <div class="grid">
+    <div class="pod">
+      <img src="images/Memberships & Affiliations/ALUCAST.png" alt="ALUCAST">
+      <h3>ALUCAST</h3>
+      <p>Aluminium Casters Association of India — Secretary, Coimbatore Chapter.</p>
+    </div>
+    <div class="pod">
+      <img src="images/Memberships & Affiliations/IIF-1.png" alt="IIF">
+      <h3>IIF</h3>
+      <p>Indian Institute of Foundrymen — Member & Organizer, Subcommittee.</p>
+    </div>
+    <div class="pod">
+      <img src="images/Memberships & Affiliations/GDC-1.png" alt="GDC Tech Forum">
+      <h3>GDC Tech Forum</h3>
+      <p>Regional convener & Member.</p>
+    </div>
+    <div class="pod">
+      <img src="images/Memberships & Affiliations/icci-1.png" alt="ICCI">
+      <h3>ICCI</h3>
+      <p>Indian Chamber of Commerce & Industry — Member.</p>
+    </div>
+    <div class="pod">
+      <img src="images/Memberships & Affiliations/CODISSIA.png" alt="CODISSIA">
+      <h3>CODISSIA</h3>
+      <p>Coimbatore District Small Scale Industries Association — Member.</p>
+    </div>
+  </div>
+</section>
+<div id="global-footer"></div>
+
+</body>
+</html>

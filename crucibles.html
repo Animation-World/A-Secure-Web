@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CRUCIBLES — BMC Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Manrope', sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+
+/* TYPOGRAPHY */
+h1,h2,h3{font-family:'Manrope', sans-serif; font-weight:800; letter-spacing:-0.03em; line-height:1.1;}
+.mono{font-family:'Syncopate', sans-serif; text-transform:uppercase; letter-spacing:0.1em; font-weight:700;}
+
+/* TOPBAR */
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+
+/* NAV */
+.nav-back{
+  position:fixed; top:40px; left:40px; z-index:100;
+  font-family:'Syncopate', sans-serif; font-weight:700; font-size:12px;
+  color:var(--text); text-decoration:none;
+  display:flex; align-items:center; gap:10px;
+  mix-blend-mode: exclusion;
+}
+.nav-back::before{content:'←'; font-size:16px;}
+
+/* HERO */
+.page-hero{
+  min-height:80vh; padding:160px 5vw 80px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  position:relative; border-bottom:1px solid var(--border);
+}
+.hero-title{
+  font-size:clamp(50px, 8vw, 120px); text-transform:uppercase;
+  margin-bottom:40px; color:var(--text);
+}
+.hero-desc{
+  max-width:800px; font-size:20px; line-height:1.6; color:var(--text-light);
+  border-left:2px solid var(--accent); padding-left:30px;
+}
+.hero-brand{
+  position:absolute; top:160px; right:5vw; width:200px; opacity:0.9;
+}
+
+/* GRID LAYOUT */
+.content-section{padding:100px 5vw;}
+.item-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:80px;
+}
+.grid-item{
+  position:relative; margin-bottom:40px;
+}
+.grid-item:nth-child(even){
+  margin-top:120px; /* Staggered effect */
+}
+
+.item-img-wrap{
+  width:100%; height:400px; overflow:hidden; border-radius:var(--radius);
+  position:relative; margin-bottom:30px;
+  background: #e0ded5;
+}
+.item-img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  scale: 1.2;
+}
+.item-overlay{
+  position:absolute; inset:0; background:rgba(0,0,0,0.2); opacity:0; transition:opacity 0.4s;
+}
+.grid-item:hover .item-img{transform:scale(1);}
+.grid-item:hover .item-overlay{opacity:1;}
+
+.item-content h3{
+  font-size:32px; margin-bottom:15px;
+}
+.item-content p{
+  color:var(--text-light); line-height:1.6; font-size:16px;
+}
+.item-num{
+  font-family:'Syncopate', sans-serif; font-size:12px; color:var(--accent);
+  margin-bottom:10px; display:block; font-weight:700;
+}
+
+/* FULL WIDTH BANNER */
+.banner-section{
+  padding:100px 5vw; background:var(--text); color:var(--bg);
+  text-align:center; overflow:hidden; position:relative;
+}
+.banner-text{
+  font-size:clamp(30px, 5vw, 60px); font-weight:800; line-height:1.2;
+  max-width:1000px; margin:0 auto 60px;
+}
+.contact-row{
+  display:flex; justify-content:center; gap:40px; flex-wrap:wrap;
+  font-family:'Syncopate', sans-serif; font-size:14px;
+}
+.contact-pill{
+  border:1px solid rgba(255,255,255,0.2); padding:15px 30px;
+  border-radius:50px; transition:all 0.3s; cursor:pointer;
+  display:flex; align-items:center; gap:10px; color:white; text-decoration:none;
+}
+.contact-pill:hover{background:var(--accent); border-color:var(--accent);}
+
+/* ANIMATION UTILS */
+.reveal-text{overflow:hidden;}
+.reveal-text span{display:inline-block; transform:translateY(100%);}
+
+@media(max-width:768px){
+  .item-grid{grid-template-columns:1fr; gap:40px;}
+  .grid-item:nth-child(even){margin-top:0;}
+  .hero-brand{position:static; width:100px; margin-bottom:20px;}
+}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+
+<header class="page-hero">
+  <img src="images/Crucibles/Morgan-New-logo.png" alt="Morgan" class="hero-brand">
+  <h1 class="hero-title">
+    <div class="reveal-text">Thermal</div>
+    <div class="reveal-text">Excellence</div>
+  </h1>
+  <div class="hero-desc">
+    Morgan, with 150+ years of expertise, leads the world in crucible manufacturing for non-ferrous, ferrous, and precious metals. Technically advanced solutions for melting, holding, and transfer.
+  </div>
+</header>
+
+<section class="content-section">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:40px;">
+    <div class="item-img-wrap" style="height:220px;">
+      <img src="images/Crucibles/Crucibles-website.png" alt="Morgan Crucibles" class="item-img">
+      <div class="item-overlay"></div>
+    </div>
+    <div class="item-img-wrap" style="height:220px;">
+      <img src="images/Crucibles/Crucibles-2-website.png" alt="Morgan Crucibles 2" class="item-img">
+      <div class="item-overlay"></div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)">
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">01</span>
+      <h3>Excel & High Melt</h3>
+      <p>For aluminium, copper alloys, precious metals and non-ferrous alloys.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">02</span>
+      <h3>Excel E</h3>
+      <p>Melting, holding and melt/holding of aluminium in electric/gas furnaces.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">03</span>
+      <h3>Salamander</h3>
+      <p>Consistent performance in fuel-fired and induction furnaces.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">04</span>
+      <h3>Ladle Liners</h3>
+      <p>Metal transfer for ferrous/non-ferrous including iron, brass, bronze.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">05</span>
+      <h3>Syncarb Z2</h3>
+      <p>Melt and hold copper and copper alloys in induction/fuel-fired furnaces.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">06</span>
+      <h3>Syncarb Z2e2</h3>
+      <p>Energy Crucibles for aluminium in gas and electric resistance furnaces.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">07</span>
+      <h3>Ultra Melt</h3>
+      <p>Superior performance under aggressive erosive conditions with heavy flux.</p>
+    </div>
+    <div style="background:var(--bg);padding:32px;">
+      <span class="item-num">08</span>
+      <h3>BNI</h3>
+      <p>For aluminum scrap melting and fuel-fired applications.</p>
+    </div>
+  </div>
+</section>
+
+<section class="banner-section">
+  <div class="banner-text">
+    Authorized Stockists & Distributors<br>
+    <span style="color:var(--accent); font-size:0.6em; display:block; margin-top:20px;">Get the right crucible for your melt.</span>
+  </div>
+  <div class="contact-row">
+    <a href="mailto:gokilavaratharaj142@gmail.com" class="contact-pill">
+      ✉ gokilavaratharaj142@gmail.com
+    </a>
+    <a href="tel:+919095195647" class="contact-pill">
+      📞 +91 9095195647
+    </a>
+  </div>
+</section>
+
+<div id="global-footer"></div>
+
+<script>
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero Text Reveal
+gsap.utils.toArray('.reveal-text span').forEach((span, i) => {
+  gsap.to(span, {
+    transform: 'translateY(0)',
+    duration: 1.2,
+    ease: 'power4.out',
+    delay: 0.2 + (i * 0.1)
+  });
+});
+gsap.from('.hero-desc', {opacity:0, y:20, duration:1, delay:0.8});
+
+// Grid Items Reveal
+gsap.utils.toArray('.grid-item').forEach(item => {
+  let img = item.querySelector('.item-img');
+  let txt = item.querySelector('.item-content');
+  
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start: "top 85%"},
+    y: 100, opacity: 0, duration: 1, ease: "power3.out"
+  });
+  
+  // Parallax for image
+  gsap.to(img, {
+    scrollTrigger: {trigger: item, scrub: true},
+    y: -30, ease: "none"
+  });
+});
+
+// Split text setup
+document.querySelectorAll('.reveal-text').forEach(el => {
+  let txt = el.innerText;
+  el.innerHTML = `<span>${txt}</span>`;
+});
+</script>
+</body>
+</html>

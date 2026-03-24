@@ -1,0 +1,460 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Feedback — Best Marketing Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script>window.API_BASE="http://localhost:5000";</script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+.page-hero{min-height:50vh;padding:140px 5vw 40px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border)}
+.breadcrumbs{font-family:'Syncopate',sans-serif;font-size:12px;color:var(--accent);margin-bottom:20px}
+.hero-title{font-size:clamp(40px,7vw,80px);margin-bottom:10px;background:linear-gradient(to right,var(--text),var(--text-light));background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero-desc{max-width:900px;font-size:18px;color:var(--text-light);line-height:1.8;border-left:2px solid var(--accent);padding-left:24px}
+.form-wrap{max-width:900px;margin:0 auto;padding:60px 5vw}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid .full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:8px}
+.label{font-weight:700;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.input,.textarea,.select{padding:14px 16px;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface);font-size:16px;color:var(--text)}
+.textarea{min-height:140px;resize:vertical}
+.stars{display:flex;gap:8px}
+.star{font-size:28px;color:#ddd;cursor:pointer;transition:color .2s ease}
+.star.active,.star:hover{color:#ffb703}
+.emojis{display:flex;gap:10px;flex-wrap:wrap}
+.emoji{font-size:32px;cursor:pointer;opacity:0.3;transition:opacity .2s ease, transform .2s ease;padding:8px;border-radius:8px}
+.emoji.active{opacity:1;transform:scale(1.15);background:rgba(141,110,99,.1)}
+.emoji:hover{opacity:0.8;transform:scale(1.1)}
+.field-error{color:#b00020;font-size:12px;margin-top:4px;display:none}
+.actions{display:flex;gap:12px;align-items:center;margin-top:24px}
+.btn{padding:14px 22px;border-radius:var(--radius);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:white;transition:background .2s ease,transform .1s ease}
+.btn:hover{background:var(--accent-dark)}
+.btn:active{transform:scale(0.98)}
+.btn:disabled{opacity:0.6;cursor:not-allowed}
+.btn.secondary{background:transparent;color:var(--text);border-color:var(--text)}
+.btn.secondary:hover{background:var(--bg)}
+.note{margin-top:14px;color:var(--text-light);font-size:14px}
+.success{margin-top:16px;padding:12px 16px;border:1px solid #31a24c66;background:#31a24c12;color:#1b6d2f;border-radius:8px;display:none;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.6);backdrop-filter:blur(12px);z-index:9999;display:none;align-items:center;justify-content:center;animation:fadeInOverlay .3s ease}
+.modal-overlay.show{display:flex}
+.modal-content{background:rgba(255,255,255,0.95);backdrop-filter:blur(20px);border-radius:20px;padding:48px 40px;max-width:500px;width:90%;box-shadow:0 24px 48px rgba(0,0,0,0.2);animation:slideUp .4s cubic-bezier(0.16,1,0.3,1);position:relative;text-align:center;border:1px solid rgba(255,255,255,0.3)}
+.modal-content::before{content:'';position:absolute;inset:0;border-radius:20px;padding:2px;background:linear-gradient(135deg,rgba(141,110,99,0.3),rgba(78,52,46,0.3));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.modal-icon{font-size:72px;margin-bottom:20px;animation:bounceIn .6s cubic-bezier(0.68,-0.55,0.265,1.55);filter:drop-shadow(0 4px 12px rgba(255,183,3,0.3))}
+.modal-title{font-size:28px;font-weight:800;color:var(--text);margin-bottom:12px;letter-spacing:-0.02em}
+.modal-message{font-size:16px;color:var(--text-light);margin-bottom:28px;line-height:1.6}
+.modal-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.modal-btn{padding:14px 24px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s ease;border:none;position:relative;overflow:hidden}
+.modal-btn::before{content:'';position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,0.3) 0%,transparent 70%);opacity:0;transition:opacity .3s}
+.modal-btn:hover::before{opacity:1}
+.modal-btn:hover{transform:translateY(-2px);box-shadow:0 8px 16px rgba(0,0,0,0.15)}
+.modal-btn:active{transform:translateY(0)}
+.modal-btn-primary{background:linear-gradient(135deg,#8D6E63,#4E342E);color:#fff;box-shadow:0 4px 12px rgba(141,110,99,0.3)}
+.modal-btn-secondary{background:rgba(255,255,255,0.8);color:var(--text);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.confetti-particle{position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none}
+@keyframes fadeInOverlay{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes bounceIn{0%{transform:scale(0)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes confettiFall{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+.list{max-width:900px;margin:0 auto 60px;padding:0 5vw}
+.list h3{font-size:20px;margin-bottom:8px}
+.item{padding:12px 16px;border:1px solid var(--border);border-radius:8px;background:var(--surface);margin-bottom:8px;display:grid;grid-template-columns:2fr 1fr 1fr}
+.item div{font-size:14px;color:var(--text-light)}
+/* charts */
+.charts{max-width:900px;margin:0 auto;padding:20px 5vw}
+.metric{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.metric .num{font-size:28px;font-weight:900;color:var(--accent)}
+.bar-wrap{display:flex;align-items:center;gap:12px;margin:6px 0}
+.bar-label{width:180px;font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}
+.bar{flex:1;height:10px;background:#f0ede6;border-radius:999px;overflow:hidden}
+.bar > div{height:10px;background:var(--accent);transition:width .3s}
+.donut{width:120px;height:120px;border-radius:50%;background:conic-gradient(var(--accent) calc(var(--p)*1%), #f0ede6 0);display:grid;place-items:center;position:relative}
+.donut::before{content:'';position:absolute;inset:14px;border-radius:50%;background:var(--surface)}
+.donut .val{position:relative;font-weight:900;color:var(--accent)}
+.party{position:fixed;inset:0;pointer-events:none;z-index:2000}
+.confetti{position:absolute;width:10px;height:16px;background:var(--accent);opacity:.9;transform:translateY(-20px);animation:drop .9s ease-out forwards}
+@keyframes drop{to{transform:translateY(100vh) rotate(360deg);opacity:0}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.item{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<header class="page-hero">
+  <div class="breadcrumbs">Home / Feedback</div>
+  <h1 class="hero-title">Share Your Feedback</h1>
+  <div class="hero-desc">Help us improve your experience. Your feedback goes directly to our team and is used to refine services and content.</div>
+  </header>
+<section class="form-wrap">
+  <form id="feedbackForm">
+    <div class="grid">
+      <div class="field">
+        <label class="label" for="name">Name</label>
+        <input class="input" id="name" name="name" required />
+        <div class="field-error" id="nameError">Name is required</div>
+      </div>
+      <div class="field">
+        <label class="label" for="email">Email</label>
+        <input class="input" id="email" name="email" type="email" required />
+        <div class="field-error" id="emailError">Valid email is required</div>
+      </div>
+      <div class="field">
+        <label class="label" for="phone">Phone</label>
+        <input class="input" id="phone" name="phone" type="tel" />
+      </div>
+      <div class="field">
+        <label class="label" for="category">Category</label>
+        <select class="select" id="category" name="category" required>
+          <option value="">Select Category</option>
+          <option value="Sales">Sales Inquiry</option>
+          <option value="Support">Technical Support</option>
+          <option value="Product">Product Feedback</option>
+          <option value="Other">Other</option>
+        </select>
+        <div class="field-error" id="categoryError">Please select a category</div>
+      </div>
+      <div class="field full">
+        <label class="label" for="message">Feedback</label>
+        <textarea class="textarea" id="message" name="message" required minlength="10"></textarea>
+        <div class="field-error" id="messageError">Feedback must be at least 10 characters</div>
+      </div>
+      <div class="field full">
+        <label class="label">Rate Your Experience</label>
+        <div class="stars" id="stars">
+          <span class="star" data-val="1">★</span>
+          <span class="star" data-val="2">★</span>
+          <span class="star" data-val="3">★</span>
+          <span class="star" data-val="4">★</span>
+          <span class="star" data-val="5">★</span>
+        </div>
+        <div class="field-error" id="starsError">Please select a rating</div>
+      </div>
+      <div class="field full">
+        <label class="label">How do you feel?</label>
+        <div class="emojis" id="emojis">
+          <span class="emoji" data-val="love" title="Love it">😍</span>
+          <span class="emoji" data-val="happy" title="Happy">😊</span>
+          <span class="emoji" data-val="like" title="Like it">👍</span>
+          <span class="emoji" data-val="neutral" title="Neutral">😐</span>
+          <span class="emoji" data-val="sad" title="Sad">😕</span>
+          <span class="emoji" data-val="angry" title="Angry">😠</span>
+        </div>
+      </div>
+      <div class="field full">
+        <label class="label" for="consent">
+          <input type="checkbox" id="consent" required /> I agree to processing my feedback
+        </label>
+        <div class="field-error" id="consentError">You must agree to continue</div>
+      </div>
+    </div>
+    <div class="actions">
+      <button class="btn" type="submit">Submit Feedback</button>
+      <button class="btn secondary" type="button" id="clearBtn">Clear</button>
+    </div>
+    <div class="note">We store your feedback in your browser only. Admin can export from the Admin page.</div>
+    <div class="success" id="successMsg">Thank you! Your feedback has been recorded.</div>
+  </form>
+</section>
+<section class="charts" id="charts"></section>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="successModal">
+  <div class="modal-content">
+    <div class="modal-icon" id="modalIcon">🎉</div>
+    <h2 class="modal-title" id="modalTitle">Thank You!</h2>
+    <p class="modal-message" id="modalMessage">Your feedback has been submitted successfully.</p>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-primary" onclick="window.location.href='bmc original maari.html'">Back to Home</button>
+      <button class="modal-btn modal-btn-secondary" onclick="closeModal()">Submit Another</button>
+    </div>
+  </div>
+</div>
+
+<div id="global-footer"></div>
+
+<script>
+const Backend = {
+  base: (window.API_BASE || window.FUNCTIONS_BASE_URL || ''),
+  enabled(){ return !!this.base },
+  post(path, payload){
+    if(!this.enabled()) return Promise.resolve({ok:false, skipped:true});
+    const url = this.base.endsWith('/') ? `${this.base}${path.replace(/^\//,'')}` : `${this.base}${path}`;
+    return fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload)}).catch(()=>({ok:false}));
+  }
+};
+const KEY = 'bmc_feedback';
+function seedIfEmpty(){
+  const cur = getAll();
+  if(cur.length) return;
+  const samples = [
+    {name:'Anita Kumar',email:'anita@example.com',phone:'',category:'Product',message:'Excellent quality crucibles. Very satisfied with the performance.',rating:'5 - Excellent',stars:5,sentiment:'love',timestamp:Date.now()-86400000*3},
+    {name:'Vijay Raj',email:'vijay@example.com',phone:'',category:'Support',message:'Technical support team was very helpful and responsive.',rating:'4 - Good',stars:4,sentiment:'love',timestamp:Date.now()-86400000*2},
+    {name:'Sara Menon',email:'sara@example.com',phone:'',category:'Sales',message:'Sales team provided detailed product information.',rating:'4 - Good',stars:4,sentiment:'love',timestamp:Date.now()-86400000},
+    {name:'Kumar Patel',email:'kumar@example.com',phone:'',category:'Product',message:'Die casting lubricants improved our production cycle significantly.',rating:'5 - Excellent',stars:5,sentiment:'love',timestamp:Date.now()-3600000},
+  ];
+  saveAll(samples);
+}
+function getAll(){
+  try { return JSON.parse(localStorage.getItem(KEY)) || []; } catch(e){ return []; }
+}
+function saveAll(arr){
+  localStorage.setItem(KEY, JSON.stringify(arr));
+}
+function satisfactionPercent(data){
+  if(!data.length) return 0;
+  const good = data.filter(d=>{
+    const r = d.rating||'';
+    const s = Number(d.stars||0);
+    return r.startsWith('5') || r.startsWith('4') || s>=4 || d.sentiment==='love' || d.sentiment==='like';
+  }).length;
+  return Math.round((good/data.length)*100);
+}
+function drawCharts(){
+  const wrap = document.getElementById('charts');
+  const data = getAll();
+  if(!data.length){ wrap.innerHTML=''; return }
+  const catCounts = {};
+  const rateCounts = {'5 - Excellent':0,'4 - Good':0,'3 - Average':0,'2 - Poor':0,'1 - Very Poor':0};
+  data.forEach(d=>{
+    catCounts[d.category||'Other']=(catCounts[d.category||'Other']||0)+1;
+    if(rateCounts[d.rating]!=null) rateCounts[d.rating]++;
+  });
+  const maxCat = Math.max(...Object.values(catCounts));
+  const maxRate = Math.max(...Object.values(rateCounts));
+  const bar = (label,val,max)=>`<div class="bar-wrap"><div class="bar-label">${label}</div><div class="bar"><div style="width:${Math.round((val/max)*100)}%"></div></div><div style="width:40px;text-align:right;color:var(--text-light)">${val}</div></div>`;
+  const cats = Object.entries(catCounts).map(([k,v])=>bar(k,v,maxCat)).join('');
+  const rates = Object.entries(rateCounts).map(([k,v])=>bar(k,v,maxRate)).join('');
+  const sat = satisfactionPercent(data);
+  wrap.innerHTML = `<div style="display:flex;align-items:center;gap:18px;margin-bottom:18px">
+      <div class="donut" style="--p:${sat}"><div class="val">${sat}%</div></div>
+      <div style="color:var(--text-light)">customers like the product quality</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div style="border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px"><div style="font-weight:900;margin-bottom:8px">Feedback by Category</div>${cats}</div>
+      <div style="border:1px solid var(--border);border-radius:12px;background:var(--surface);padding:16px"><div style="font-weight:900;margin-bottom:8px">Ratings Distribution</div>${rates}</div>
+    </div>`;
+}
+function renderList(){
+  const items = document.getElementById('items');
+  const data = getAll().slice().reverse().slice(0,5);
+  items.innerHTML = '';
+  data.forEach(d=>{
+    const el = document.createElement('div');
+    el.className = 'item';
+    const when = new Date(d.timestamp).toLocaleString();
+    el.innerHTML = `<div><strong>${d.name}</strong> — ${d.category}</div><div>${when}</div><div>${d.rating||''}</div>`;
+    items.appendChild(el);
+  });
+}
+function initStars(){
+  const stars = document.querySelectorAll('#stars .star');
+  stars.forEach(s=>{
+    s.addEventListener('click', ()=>{
+      const val = Number(s.dataset.val);
+      stars.forEach(x=>x.classList.toggle('active', Number(x.dataset.val)<=val));
+      document.getElementById('starsVal').value = val;
+      hideError('starsError');
+    });
+    s.addEventListener('mouseenter', ()=>{
+      const val = Number(s.dataset.val);
+      stars.forEach(x=>x.classList.toggle('active', Number(x.dataset.val)<=val));
+    });
+  });
+  document.getElementById('stars').addEventListener('mouseleave', ()=>{
+    const currentVal = Number(document.getElementById('starsVal').value || 0);
+    stars.forEach(x=>x.classList.toggle('active', Number(x.dataset.val)<=currentVal));
+  });
+}
+function initEmojis(){
+  const emojis = document.querySelectorAll('#emojis .emoji');
+  emojis.forEach(e=>{
+    e.addEventListener('click', ()=>{
+      emojis.forEach(x=>x.classList.remove('active'));
+      e.classList.add('active');
+      document.getElementById('emojiVal').value = e.dataset.val;
+    });
+  });
+}
+function showError(id){
+  const el = document.getElementById(id);
+  if(el) el.style.display='block';
+}
+function hideError(id){
+  const el = document.getElementById(id);
+  if(el) el.style.display='none';
+}
+document.getElementById('feedbackForm').addEventListener('submit', (e)=>{
+  e.preventDefault();
+  
+  // Hide all errors
+  ['nameError','emailError','categoryError','messageError','starsError','consentError'].forEach(hideError);
+  
+  const f = e.target;
+  const name = f.name.value.trim();
+  const email = f.email.value.trim();
+  const category = f.category.value;
+  const message = f.message.value.trim();
+  const stars = Number(document.getElementById('starsVal').value||0);
+  const consent = f.consent.checked;
+  
+  let hasError = false;
+  
+  if(!name){ showError('nameError'); hasError=true; }
+  if(!email || !isValidEmail(email)){ showError('emailError'); hasError=true; }
+  if(!category){ showError('categoryError'); hasError=true; }
+  if(!message || message.length<10){ showError('messageError'); hasError=true; }
+  if(stars===0){ showError('starsError'); hasError=true; }
+  if(!consent){ showError('consentError'); hasError=true; }
+  
+  if(hasError) return;
+  
+  const btn = f.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  
+  const entry = {
+    name: sanitize(name),
+    email: sanitize(email),
+    phone: sanitize(f.phone.value.trim()),
+    category: sanitize(category),
+    message: sanitize(message),
+    rating: `${stars} - ${['','Very Poor','Poor','Average','Good','Excellent'][stars]}`,
+    stars: stars,
+    sentiment: document.getElementById('emojiVal').value || (stars>=4?'love':stars===3?'neutral':'sad'),
+    timestamp: Date.now()
+  };
+  
+  const all = getAll();
+  all.push(entry);
+  saveAll(all);
+  
+  Backend.post('/api/feedback', entry).finally(()=>{
+    btn.disabled = false;
+    btn.textContent = 'Submit Feedback';
+    
+    // Show success modal with dynamic message
+    showSuccessModal(stars);
+    
+    f.reset();
+    document.getElementById('starsVal').value = '';
+    document.getElementById('emojiVal').value = '';
+    document.querySelectorAll('.star').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('.emoji').forEach(e=>e.classList.remove('active'));
+    renderList();
+    drawCharts();
+  });
+});
+
+function showSuccessModal(stars) {
+  const modal = document.getElementById('successModal');
+  const icon = document.getElementById('modalIcon');
+  const title = document.getElementById('modalTitle');
+  const message = document.getElementById('modalMessage');
+  
+  // Dynamic content based on rating - Professional tone
+  const content = {
+    5: { icon: '⭐', title: "We're thrilled you loved it!", message: 'Your 5-star feedback means the world to us. Thank you for your support!' },
+    4: { icon: '😊', title: 'Thank you!', message: "We're glad you had a great experience. Your feedback helps us improve!" },
+    3: { icon: '👍', title: 'Thanks for your feedback!', message: "We appreciate your input and we'll keep working to improve your experience." },
+    2: { icon: '🤝', title: 'We appreciate your honesty', message: "Your feedback is valuable. We'll work on addressing your concerns." },
+    1: { icon: '🙏', title: 'Thank you for your feedback', message: "We take this seriously and will work to improve. Thank you for helping us get better." }
+  };
+  
+  const data = content[stars] || content[3];
+  icon.textContent = data.icon;
+  title.textContent = data.title;
+  message.textContent = data.message;
+  
+  modal.classList.add('show');
+  
+  // Subtle confetti for 4-5 stars only
+  if (stars >= 4) {
+    createConfetti();
+  }
+  
+  // Auto close after 5 seconds
+  setTimeout(() => {
+    closeModal();
+  }, 5000);
+}
+
+function closeModal() {
+  const modal = document.getElementById('successModal');
+  modal.classList.remove('show');
+}
+
+function createConfetti() {
+  const modal = document.querySelector('.modal-content');
+  const colors = ['#8D6E63', '#4E342E', '#31a24c', '#ffb703', '#F9F5EB'];
+  
+  for (let i = 0; i < 30; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'confetti-particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.top = '-10px';
+    particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.animationDelay = Math.random() * 0.3 + 's';
+    particle.style.animation = 'confettiFall 2s ease-out forwards';
+    modal.appendChild(particle);
+    
+    setTimeout(() => particle.remove(), 2000);
+  }
+}
+
+function sanitize(str) {
+  const temp = document.createElement('div');
+  temp.textContent = str;
+  return temp.innerHTML;
+}
+
+function isValidEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  document.getElementById('feedbackForm').reset();
+});
+// hidden inputs to store stars and emojis
+const hiddenStars = document.createElement('input'); hiddenStars.type='hidden'; hiddenStars.id='starsVal';
+const hiddenEmoji = document.createElement('input'); hiddenEmoji.type='hidden'; hiddenEmoji.id='emojiVal';
+document.getElementById('feedbackForm').appendChild(hiddenStars);
+document.getElementById('feedbackForm').appendChild(hiddenEmoji);
+seedIfEmpty();
+initStars();
+initEmojis();
+renderList(); drawCharts();
+window.addEventListener('scroll', ()=>{
+  const n = document.querySelector('.main-nav');
+  if(!n) return;
+  if(window.scrollY>10) n.classList.add('scrolled'); else n.classList.remove('scrolled');
+});
+
+// Input validation listeners
+['name','email','category','message'].forEach(id=>{
+  const el = document.getElementById(id);
+  if(el) el.addEventListener('input', ()=>hideError(id+'Error'));
+});
+document.getElementById('consent').addEventListener('change', ()=>hideError('consentError'));
+</script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Foundry Products — BMC Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+.page-hero{min-height:70vh;padding:160px 5vw 80px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;border-bottom:1px solid var(--border)}
+.hero-title{font-size:clamp(44px,8vw,100px);margin-bottom:30px;background:linear-gradient(to right,var(--text),var(--text-light));background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero-desc{max-width:900px;font-size:18px;color:var(--text-light);line-height:1.8;border-left:2px solid var(--accent);padding-left:24px}
+.hero-brand{position:absolute;top:140px;right:5vw;width:160px;opacity:.9}
+.grid{max-width:1200px;margin:0 auto;padding:80px 5vw;columns:2;column-gap:40px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:transform .5s cubic-bezier(.2,1,.3,1),box-shadow .5s;break-inside:avoid;margin-bottom:40px}
+.card:hover{transform:translateY(-10px);box-shadow:0 30px 60px rgba(0,0,0,.08)}
+.image{position:relative;height:260px;overflow:hidden}
+.image img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform .6s cubic-bezier(.2,1,.3,1)}
+.card:hover .image img{transform:scale(1.08)}
+.inner{padding:28px}
+.meta{color:var(--accent);font-size:12px;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:8px}
+.inner h3{font-size:24px;margin-bottom:10px}
+.inner p{color:var(--text-light);line-height:1.7}
+.cta{max-width:1200px;margin:0 auto;padding:80px 5vw;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.box{background:var(--surface);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+.logos{display:flex;gap:16px;align-items:center}
+.logos img{height:40px;object-fit:contain}
+footer{background:var(--text);color:var(--bg);padding:50px 5vw;text-align:center}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.cta{grid-template-columns:1fr}.hero-brand{position:static;width:120px;margin-bottom:20px}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+<header class="page-hero">
+  <img src="images/foundry-products/Morgan-New-logo.png" alt="Morgan" class="hero-brand">
+  <h1 class="hero-title">Foundry Products</h1>
+  <div class="hero-desc">Morgan offers a complete range of high performance foundry products and accessories for non-ferrous and ferrous applications.</div>
+</header>
+<section class="grid">
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Morgan-Foundy-Website.png" alt="Degassing Tubes"></div>
+    <div class="inner"><span class="meta">Degassing Tubes</span><h3>Efficient Degassing</h3><p>For degassing aluminium in small to medium crucibles.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Foundry-2-website.png" alt="Degassing Rotors"></div>
+    <div class="inner"><span class="meta">Degassing Rotors</span><h3>One-piece Silicon Carbide</h3><p>High wear resistance and anti-oxidation for cost-effective degassing.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Morgan-Foundy-Website.png" alt="Ladle Bowls"></div>
+    <div class="inner"><span class="meta">Ladle Bowls</span><h3>Sampling Made Easy</h3><p>Ideal for sampling molten metal for spectrographic or thermal analysis.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Foundry-2-website.png" alt="Launders"></div>
+    <div class="inner"><span class="meta">Launders</span><h3>Minimal Temperature Loss</h3><p>Molten metal transfer from spout to process points with efficiency.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Morgan-Foundy-Website.png" alt="Blue Lightning"></div>
+    <div class="inner"><span class="meta">Blue Lightning</span><h3>Protection & Service Life</h3><p>For aluminum and non-ferrous melting and holding applications.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Foundry-2-website.png" alt="Stopper Rods"></div>
+    <div class="inner"><span class="meta">Stopper Rods</span><h3>High Refractoriness</h3><p>1600–1700°C with strength and erosion resistance for Auto Pour.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Morgan-Foundy-Website.png" alt="Stopper Heads"></div>
+    <div class="inner"><span class="meta">Stopper Heads</span><h3>Precision Flow Control</h3><p>Configured to match rods and nozzles for reliable pouring.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Foundry-2-website.png" alt="Nozzles & Segments"></div>
+    <div class="inner"><span class="meta">Nozzle & Convector Segments</span><h3>Accessories</h3><p>Supporting efficient metal flow and thermal management.</p></div>
+  </div>
+  <div class="card">
+    <div class="image"><img src="images/foundry-products/Morgan-Foundy-Website.png" alt="Coatings"></div>
+    <div class="inner"><span class="meta">Coatings</span><h3>CBS Black, Morcem 900</h3><p>Proven coatings for performance and longevity.</p></div>
+  </div>
+</section>
+<section class="cta">
+  <div>
+    <h2 style="font-size:28px;margin-bottom:10px">For more details and enquiry</h2>
+    <p>gokilavaratharaj142@gmail.com<br>+91 9095195647</p>
+  </div>
+  <div class="box">
+    <div class="logos"><img src="images/foundry-products/Morgan-New-logo.png" alt="Morgan"></div>
+    <div style="margin-top:8px;color:var(--text-light)">Authorized Stockists & Distributors</div>
+  </div>
+</section>
+<div id="global-footer"></div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.from(".hero-title",{y:50,opacity:0,duration:1});
+gsap.from(".hero-desc",{y:20,opacity:0,duration:.8,delay:.2});
+gsap.from(".card",{scrollTrigger:{trigger:".grid",start:"top 80%"},y:50,opacity:0,duration:.8,stagger:.08});
+</script>
+</body>
+</html>

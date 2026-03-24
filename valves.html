@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>VALVES — BMC Engineering</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Manrope', sans-serif;
+  overflow-x:hidden;
+  cursor:none;
+}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+
+/* TYPOGRAPHY */
+h1,h2,h3{font-family:'Manrope', sans-serif; font-weight:800; letter-spacing:-0.03em; line-height:1.1;}
+.mono{font-family:'Syncopate', sans-serif; text-transform:uppercase; letter-spacing:0.1em; font-weight:700;}
+
+/* TOPBAR */
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+
+/* NAV */
+.nav-back{
+  position:fixed; top:40px; left:40px; z-index:100;
+  font-family:'Syncopate', sans-serif; font-weight:700; font-size:12px;
+  color:var(--text); text-decoration:none;
+  display:flex; align-items:center; gap:10px;
+  mix-blend-mode: exclusion;
+}
+.nav-back::before{content:'←'; font-size:16px;}
+
+/* HERO */
+.page-hero{
+  min-height:80vh; padding:160px 5vw 80px;
+  display:flex; flex-direction:column; justify-content:flex-end;
+  position:relative; border-bottom:1px solid var(--border);
+}
+.hero-title{
+  font-size:clamp(50px, 8vw, 120px); text-transform:uppercase;
+  margin-bottom:40px; color:var(--text);
+}
+.hero-desc{
+  max-width:800px; font-size:20px; line-height:1.6; color:var(--text-light);
+  border-left:2px solid var(--accent); padding-left:30px;
+}
+.hero-brand{
+  position:absolute; top:160px; right:5vw; width:150px; opacity:0.8;
+}
+
+/* GRID LAYOUT */
+.content-section{padding:100px 5vw;}
+.item-grid{
+  display:grid; grid-template-columns:1fr 1fr; gap:80px;
+}
+.grid-item{
+  position:relative; margin-bottom:40px;
+}
+.grid-item:nth-child(even){
+  margin-top:120px; /* Staggered effect */
+}
+
+.item-img-wrap{
+  width:100%; height:400px; overflow:hidden; border-radius:var(--radius);
+  position:relative; margin-bottom:30px;
+  background: #e0ded5;
+}
+.item-img{
+  width:100%; height:100%; object-fit:cover;
+  transition:transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+  scale: 1.05;
+}
+.item-overlay{
+  position:absolute; inset:0; background:rgba(0,0,0,0.2); opacity:0; transition:opacity 0.4s;
+}
+.grid-item:hover .item-img{transform:scale(1.1);}
+.grid-item:hover .item-overlay{opacity:1;}
+
+.item-content h3{
+  font-size:32px; margin-bottom:15px;
+}
+.item-content p{
+  color:var(--text-light); line-height:1.6; font-size:16px;
+}
+.item-num{
+  font-family:'Syncopate', sans-serif; font-size:12px; color:var(--accent);
+  margin-bottom:10px; display:block; font-weight:700;
+}
+
+/* FULL WIDTH BANNER */
+.banner-section{
+  padding:100px 5vw; background:var(--text); color:var(--bg);
+  text-align:center; overflow:hidden; position:relative;
+}
+.banner-text{
+  font-size:clamp(30px, 5vw, 60px); font-weight:800; line-height:1.2;
+  max-width:1000px; margin:0 auto 60px;
+}
+.contact-row{
+  display:flex; justify-content:center; gap:40px; flex-wrap:wrap;
+  font-family:'Syncopate', sans-serif; font-size:14px;
+}
+.contact-pill{
+  border:1px solid rgba(255,255,255,0.2); padding:15px 30px;
+  border-radius:50px; transition:all 0.3s; cursor:pointer;
+  display:flex; align-items:center; gap:10px; color:white; text-decoration:none;
+}
+.contact-pill:hover{background:var(--accent); border-color:var(--accent);}
+
+/* ANIMATION UTILS */
+.reveal-text{overflow:hidden;}
+.reveal-text span{display:inline-block; transform:translateY(100%);}
+
+@media(max-width:768px){
+  .item-grid{grid-template-columns:1fr; gap:40px;}
+  .grid-item:nth-child(even){margin-top:0;}
+  .hero-brand{position:static; width:100px; margin-bottom:20px;}
+}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<header class="page-hero">
+  <div class="hero-brand">
+    <img src="https://cdn.prod.website-files.com/6492dd5a3673825d8633c5b3/649320650eb5f0fe43545a2c_festo.svg" alt="Festo">
+  </div>
+  <h1 class="hero-title reveal-text"><span>Engineered for Precision, Built for Reliability</span></h1>
+  <div class="hero-desc">
+    Explore our comprehensive range of industrial valves from world-leading brands like Festo, Janatics, and CKD.
+  </div>
+</header>
+
+<section class="content-section">
+  <div class="item-grid">
+    
+    <div class="grid-item">
+      <span class="item-num">01</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-solenoid.jpg" alt="Solenoid Valves" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Solenoid Valves</h3>
+        <p>Wide range of solenoid valves for diverse industrial applications, ensuring rapid response and reliability.</p>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <span class="item-num">02</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-pneumatic.png" alt="Pneumatic Valves" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Pneumatic Valves</h3>
+        <p>2/2 & 3/2 way pneumatic angle and straight type valves designed for robust fluid control systems.</p>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <span class="item-num">03</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-control.png" alt="Control Valves" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Control Valves</h3>
+        <p>Precision 2/2 & 3/2 way Pneumatic & Electric Control valves complete with advanced control accessories.</p>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <span class="item-num">04</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-ball-butterfly.jpg" alt="Actuated Valves" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Actuated Valves</h3>
+        <p>Ball and Butterfly valves coupled with high-performance Pneumatic & Electric Actuators.</p>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <span class="item-num">05</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-pharma.png" alt="Pharma Valves" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Pharma & Biotech</h3>
+        <p>Specialized electric and pneumatic valves designed for the strict hygiene standards of pharma and biotech.</p>
+      </div>
+    </div>
+
+    <div class="grid-item">
+      <span class="item-num">06</span>
+      <div class="item-img-wrap">
+        <img src="images/valves/valve-gas-system.png" alt="Gas Control" class="item-img">
+        <div class="item-overlay"></div>
+      </div>
+      <div class="item-content">
+        <h3>Gas Control Systems</h3>
+        <p>Gas Solenoid valves, Ratio control valves, Regulators, and Safety Shut-off valves for critical gas trains.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="banner-section">
+  <div class="banner-text">
+    Authorized Stockists & Distributors<br>
+    <span style="color:var(--accent); font-size:0.6em; display:block; margin-top:20px;">Ready to optimize your flow?</span>
+  </div>
+  <div class="contact-row">
+    <a href="mailto:gokilavaratharaj142@gmail.com" class="contact-pill">
+      ✉ gokilavaratharaj142@gmail.com
+    </a>
+    <a href="tel:+919095195647" class="contact-pill">
+      📞 +91 9095195647
+      📞 +91 9597512444
+    </a>
+  </div>
+</section>
+
+<div id="global-footer"></div>
+
+<script>
+// GSAP
+gsap.registerPlugin(ScrollTrigger);
+
+// Hero Text Reveal
+gsap.utils.toArray('.reveal-text span').forEach((span, i) => {
+  gsap.to(span, {
+    transform: 'translateY(0)',
+    duration: 1.2,
+    ease: 'power4.out',
+    delay: 0.2 + (i * 0.1)
+  });
+});
+gsap.from('.hero-desc', {opacity:0, y:20, duration:1, delay:0.8});
+
+// Grid Items Reveal
+gsap.utils.toArray('.grid-item').forEach(item => {
+  let img = item.querySelector('.item-img');
+  let txt = item.querySelector('.item-content');
+  
+  gsap.from(item, {
+    scrollTrigger: {trigger: item, start: "top 85%"},
+    y: 100, opacity: 0, duration: 1, ease: "power3.out"
+  });
+  
+  // Parallax for image
+  gsap.to(img, {
+    scrollTrigger: {trigger: item, scrub: true},
+    y: -30, ease: "none"
+  });
+});
+
+// Split text setup
+document.querySelectorAll('.reveal-text').forEach(el => {
+  let txt = el.innerText;
+  el.innerHTML = `<span>${txt}</span>`;
+});
+</script>
+</body>
+</html>

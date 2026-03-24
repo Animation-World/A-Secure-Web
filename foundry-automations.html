@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Foundry Automations — BMC Automation & Solutions</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.14/dist/lenis.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+/* TOPBAR */
+.dropdown{position:relative}
+.dropdown > a{display:flex;align-items:center;gap:6px}
+.dropdown-content{position:absolute;top:28px;left:0;min-width:260px;background:rgba(255,255,255,.95);border:1px solid var(--border);border-radius:10px;box-shadow:0 20px 40px rgba(0,0,0,.08);padding:12px;display:none}
+.dropdown-content a{display:block;padding:10px 12px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--text);border-radius:8px}
+.dropdown-content a:hover{background:var(--bg)}
+.dropdown:hover .dropdown-content{display:block}
+.page-hero{min-height:70vh;padding:160px 5vw 80px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border)}
+.hero-title{font-size:clamp(44px,8vw,96px);margin-bottom:30px;background:linear-gradient(to right,var(--text),var(--text-light));background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero-desc{max-width:900px;font-size:18px;color:var(--text-light);line-height:1.8;border-left:2px solid var(--accent);padding-left:24px}
+.section{max-width:1200px;margin:0 auto;padding:100px 5vw;border-bottom:1px solid var(--border)}
+.section h2{font-size:32px;margin-bottom:16px}
+.section p{color:var(--text-light);line-height:1.8;margin-bottom:16px}
+.list{margin:12px 0 24px 18px}
+.list li{margin-bottom:8px;color:var(--text-light)}
+.cta{max-width:1200px;margin:0 auto;padding:80px 5vw;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.box{background:var(--surface);padding:24px;border:1px solid var(--border);border-radius:var(--radius)}
+footer{background:var(--text);color:var(--bg);padding:50px 5vw;text-align:center}
+@media(max-width:900px){.cta{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+<header class="page-hero">
+  <h1 class="hero-title">Foundry Automation</h1>
+  <div class="hero-desc">BMC automates aluminium foundry operations to increase productivity, minimize time, and standardize cycles using auto ladlers, sprayers, and extractors with integrated equipment and service.</div>
+</header>
+<section class="section">
+  <h2>Molten Metal Transfer System</h2>
+  <p>Specially designed, efficient metal transfer ladles to move molten aluminium from melting to holding or process areas with minimal temperature loss.</p>
+  <ul class="list">
+    <li>Forklift option</li>
+    <li>Bail arm for overhead crane</li>
+    <li>Tilting gear box</li>
+  </ul>
+  <p>Capacities: 300, 450, 500, 600, 700 & 800 kg. Product & Technology Support — Morgan Molten Metal Systems & Morgan Advanced Materials.</p>
+</section>
+<section class="section">
+  <h2>Molten Aluminium Transport System</h2>
+  <p>Transport ladles for moving molten aluminium from alloy factories to foundries. Provided with lashing, forklift clamps, bail arm, and tilting gear box for convenient operations.</p>
+  <p>Offered without heaters with distinctive insulating composition for minimal temperature loss. Capacities: 300, 500, 700 & 800 kg. Support — Fuel Furnace Manufacturers & Morgan.</p>
+</section>
+<section class="section">
+  <h2>Morgan Electrically Heated Transport Ladle</h2>
+  <p>Electrically heated transfer ladles with forklift clamping, bail arm, and tilting gear box to maintain set temperatures during treatment, transport, and longer holding.</p>
+  <p>Capacities: 300, 350, 500, 600, 700 & 1000 kg. Support — Fuel Furnace Manufacturers.</p>
+</section>
+<section class="section">
+  <h2>Metal Transfer Launders</h2>
+  <p>Clay graphite launders transferring molten metal with covers and insulation to achieve minimal temperature loss.</p>
+  <p>Support — Morgan Advanced Materials / Molten Metal Systems.</p>
+</section>
+<section class="section">
+  <h2>Multi Point Dosing Furnace Automation</h2>
+  <p>Electric dosing furnace with up to 1% accurate dosing combined with melting/holding, feeding multiple pouring points without manual intervention. Suitable for gravity diecasting of larger castings.</p>
+  <p>Multiple processes — melting, holding, treatment, dosing, pouring — in one solution. Support — Fuel Furnace Manufacturers.</p>
+</section>
+<section class="cta">
+  <div><h2 style="font-size:28px;margin-bottom:10px">For Enquiry</h2><p>sales@bestmarketingco.net<br>+91 95979 773</p></div>
+  <div class="box"><div style="color:var(--text-light)">Service, spares and integration support available.</div></div>
+</section>
+<div id="global-footer"></div>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.from(".hero-title",{y:50,opacity:0,duration:1});
+gsap.utils.toArray(".section").forEach(s=>{gsap.from(s,{scrollTrigger:{trigger:s,start:"top 80%"},y:40,opacity:0,duration:.8})});
+</script>
+</body>
+</html>

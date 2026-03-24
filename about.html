@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>About Us — Best Marketing Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="common.css">
+<script src="global.js" defer></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto;scrollbar-gutter:stable}
+body{background:var(--bg);color:var(--text);font-family:'Manrope',sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+a:visited{color:inherit}
+.page-hero{min-height:60vh;padding:140px 5vw 40px;display:flex;flex-direction:column;justify-content:flex-end;border-bottom:1px solid var(--border)}
+.hero-title{font-size:clamp(40px,7vw,84px);margin-bottom:10px;background:linear-gradient(to right,var(--text),var(--text-light));background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.hero-desc{max-width:1000px;font-size:18px;color:var(--text-light);line-height:1.8;border-left:2px solid var(--accent);padding-left:24px}
+.wrap{max-width:1200px;margin:0 auto;padding:60px 5vw}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.about-img{width:100%;height:420px;object-fit:cover;border-radius:var(--radius);background:#e0ded5}
+.about-content h3{font-size:28px;margin-bottom:14px}
+.about-content p{color:var(--text-light);line-height:1.8;margin-bottom:12px}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="global-header"></div>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-outline"></div>
+
+<!-- Scroll Progress -->
+<div id="scroll-progress"></div>
+
+<header class="page-hero">
+  <h1 class="hero-title">About Us</h1>
+  <div class="hero-desc">Best Marketing Company — trusted distributor for valves, crucibles, dosing systems, lubricants and automation equipment across India.</div>
+</header>
+
+<section class="wrap">
+  <div class="grid">
+    <img src="aboutt.jpg" alt="About BMC" class="about-img" onerror="this.src='https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800'">
+    <div class="about-content">
+      <h3>We help keep operations reliable — from product selection to on-site commissioning.</h3>
+      <p>BEST MARKETING COMPANY is a trusted distributor of valves, crucibles, dosing systems, lubricants and automation equipment across India.</p>
+      <p>Our technical team supports installation, performance tuning, and after-sales service so you experience minimal downtime.</p>
+    </div>
+  </div>
+</section>
+
+<div id="global-footer"></div>
+
+</body>
+</html>

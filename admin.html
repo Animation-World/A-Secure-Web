@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Admin Login - Best Marketing Company</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script>window.API_BASE="http://localhost:5000";</script>
+<style>
+:root{--bg:#f9f5eb;--surface:#fff;--text:#3e2723;--text-light:#6d4c41;--accent:#8d6e63;--accent-dark:#4e342e;--border:rgba(62,39,35,.1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;display:grid;place-items:center;background:radial-gradient(circle at top right,rgba(141,110,99,.2),transparent 42%),var(--bg);font-family:'Manrope',sans-serif;color:var(--text)}
+.login-card{width:min(420px,92vw);background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 24px rgba(62,39,35,.08);padding:32px}
+.lock{width:58px;height:58px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff}
+.lock svg{width:28px;height:28px}
+.title{text-align:center;font-size:24px;line-height:1.2;font-weight:700;letter-spacing:-0.02em}
+.sub{text-align:center;color:var(--text-light);margin:6px 0 20px;font-size:14px}
+.row{display:flex;flex-direction:column;gap:10px}
+.field{display:flex;flex-direction:column;gap:6px}
+.label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--text-light);font-weight:700}
+.input{padding:12px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font-size:15px;transition:border-color .2s,box-shadow .2s}
+.input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(141,110,99,.2)}
+.pass-wrap{position:relative}
+.eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:none;background:transparent;color:var(--text-light);cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center}
+.btn{padding:12px 16px;border-radius:8px;border:1px solid var(--accent);background:var(--accent);color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:background .2s,border-color .2s}
+.btn:hover:not(:disabled){background:var(--accent-dark);border-color:var(--accent-dark)}
+.btn:disabled{opacity:0.7;cursor:not-allowed}
+.btn.secondary{background:transparent;color:var(--text);border-color:var(--text)}
+#stepOtp{display:none}
+.msg{display:none;font-size:13px;font-weight:700;padding:8px 10px;border-radius:8px}
+.msg.err{color:#b00020;border:1px solid #b0002044;background:#b0002014}
+.msg.ok{color:#1b6d2f;border:1px solid #1b6d2f44;background:#1b6d2f14}
+.sec{margin-top:8px;font-size:12px;color:var(--text-light)}
+.login-error{color:#b3261e;font-size:13px;margin-top:10px;text-align:center;display:none}
+</style>
+</head>
+<body>
+  <main class="login-card">
+    <div class="lock" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+    <h1 class="title">Admin Login</h1>
+    <p class="sub">JWT + OTP protected admin access.</p>
+
+    <section id="stepCred">
+      <form id="adminLoginForm" class="row" novalidate>
+        <div class="field">
+          <label class="label" for="admUser">Username or Email</label>
+          <input id="admUser" class="input" placeholder="Enter username or email" autocomplete="username">
+        </div>
+        <div class="field">
+          <label class="label" for="admPass">Password</label>
+          <div class="pass-wrap">
+            <input id="admPass" class="input" type="password" placeholder="Enter password" autocomplete="current-password" style="padding-right:40px">
+            <button id="togglePass" type="button" class="eye" aria-label="Toggle password"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg></button>
+          </div>
+        </div>
+        <button id="loginBtn" type="submit" class="btn">Login</button>
+        <div id="loginError" class="login-error"></div>
+      </form>
+    </section>
+
+    <section id="stepOtp" class="row">
+      <div class="field">
+        <label class="label" for="admOtp">One Time Password</label>
+        <input id="admOtp" class="input" maxlength="6" inputmode="numeric" placeholder="Enter 6-digit OTP">
+      </div>
+      <button id="verifyBtn" type="button" class="btn">Verify OTP</button>
+      <button id="backBtn" type="button" class="btn secondary">Back</button>
+    </section>
+
+    <div id="okMsg" class="msg ok"></div>
+    <div id="errMsg" class="msg err"></div>
+    <div class="sec">Session secured with expiring JWT token</div>
+  </main>
+
+<script>
+const TOKEN_KEY = 'bmc_jwt';
+const AUTH_KEY = 'bmc_admin_auth';
+let loginIdentity = '';
+
+const q = (id) => document.getElementById(id);
+const err = (m) => { q('okMsg').style.display='none'; q('errMsg').textContent=m; q('errMsg').style.display='block'; };
+const ok = (m) => { q('errMsg').style.display='none'; q('okMsg').textContent=m; q('okMsg').style.display='block'; };
+const clearMsg = () => { q('okMsg').style.display='none'; q('errMsg').style.display='none'; };
+
+async function apiPost(path, body) {
+  const base = window.API_BASE || 'http://localhost:5000';
+  const res = await fetch(`${base}${path}`, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body||{}) }).catch(()=>null);
+  if(!res) return { ok:false, status:0, data:null };
+  const data = await res.json().catch(()=>null);
+  return { ok: res.ok, status: res.status, data };
+}
+
+function showOtpStep() { q('stepCred').style.display='none'; q('stepOtp').style.display='flex'; }
+function showCredStep() { q('stepCred').style.display='flex'; q('stepOtp').style.display='none'; }
+
+q('togglePass').addEventListener('click', ()=>{
+  q('admPass').type = q('admPass').type === 'password' ? 'text' : 'password';
+});
+
+const loginErrorEl = q('loginError');
+const showLoginError = (m) => {
+  if(!loginErrorEl) return;
+  loginErrorEl.textContent = m || '';
+  loginErrorEl.style.display = m ? 'block' : 'none';
+};
+
+async function handleLogin(event) {
+  event.preventDefault();
+  clearMsg();
+  showLoginError('');
+
+  const identity = q('admUser').value.trim();
+  const password = q('admPass').value;
+
+  if(!identity || !password) {
+    showLoginError('Please enter your credentials.');
+    return;
+  }
+
+  const btn = q('loginBtn');
+  const origText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Authenticating...';
+
+  const r = await apiPost('/api/auth/login', { username: identity, email: identity, password });
+
+  btn.disabled = false;
+  btn.textContent = origText;
+  if(!r.ok || !r.data) {
+    showLoginError('Invalid username or password.');
+    return;
+  }
+
+  loginIdentity = identity;
+  showOtpStep();
+  if(r.data.devOtp) ok(`Dev OTP: ${r.data.devOtp}`);
+  else ok('OTP sent. Enter the 6-digit code.');
+}
+
+document.getElementById('adminLoginForm').addEventListener('submit', handleLogin);
+
+q('verifyBtn').addEventListener('click', async ()=>{
+  clearMsg();
+  const otp = q('admOtp').value.trim();
+  if(!/^\d{6}$/.test(otp)) return err('Enter valid 6-digit OTP.');
+
+  const r = await apiPost('/api/auth/verify-otp', { username: loginIdentity, email: loginIdentity, otp });
+  if(!r.ok || !r.data || !r.data.token) return err((r.data && r.data.message) || 'OTP verification failed.');
+
+  localStorage.setItem(TOKEN_KEY, r.data.token);
+  localStorage.setItem(AUTH_KEY, 'yes');
+  window.location.href = 'admin-dashboard.html';
+});
+
+q('backBtn').addEventListener('click', ()=>{ clearMsg(); showCredStep(); showLoginError(''); });
+q('admOtp').addEventListener('keydown', (e)=>{ if(e.key==='Enter') q('verifyBtn').click(); });
+
+if(localStorage.getItem(AUTH_KEY)==='yes' && localStorage.getItem(TOKEN_KEY)) {
+  window.location.href = 'admin-dashboard.html';
+}
+</script>
+</body>
+</html>
